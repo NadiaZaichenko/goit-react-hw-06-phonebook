@@ -6,20 +6,20 @@ const initialState = {
     items : [],
 };
 
-const contactSlice = createSlice({
+export const contactSlice = createSlice({
     name: "contacts",
     initialState,
     reducers: {
         addContact: {
-           reducer(state, action) {
-            state.items.push(action.payload);
+           reducer(state, {payload}) {
+            state.items.push(payload);
            } ,
            prepare(contact) {
             return { 
                 payload: {
                     ...contact,
                     id: nanoid(),
-                }
+                },
              };
            },
         },
