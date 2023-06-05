@@ -1,4 +1,6 @@
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact,getContactItems } from 'reducer/contactsSlice';
+import {toast} from 'react-toastify'
 import {useForm} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -9,6 +11,7 @@ import {
     StyledButton,
   } from './ContactForm.styled';
 import { useEffect } from 'react';
+import { createImmutableStateInvariantMiddleware } from '@reduxjs/toolkit';
 
 const nameRegex = /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
 
@@ -31,9 +34,10 @@ const schema = yup.object().shape({
     .required('Number is reqired')
 })
 
-export const ContactForm = ({onSubmit}) => {
-
-    const {
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contactsItems = useSelector(getContactItems);
+  const {
       register, 
       handleSubmit,
       formState: {errors},
@@ -53,8 +57,16 @@ export const ContactForm = ({onSubmit}) => {
     }
    }, [formState.isSubmitSuccessful, reset]);
 
+   const addNewContact = data => {
+    const normalizeName = data.name.toLowerCase();
+    if(contactsItems.find(item => createImmutableStateInvariantMiddleware.name.toLowerCase === normalizeName)) {
+      return toast.info(`${data.name} has alredy in your contacts`);
+    };
+    dispatch(addContact(data));
+   }
+
     return (
-       <StyledForm onSubmit={handleSubmit(onSubmit)}>
+       <StyledForm onSubmit={handleSubmit(addNewContact)}>
         <StyledLabel>
           Name
           <StyledInput
@@ -79,7 +91,3 @@ export const ContactForm = ({onSubmit}) => {
       </StyledForm>
   );
 }
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};

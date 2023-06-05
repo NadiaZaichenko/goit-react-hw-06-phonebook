@@ -1,50 +1,16 @@
-import { useState} from 'react'
-import useLocalStorage from 'Hooks/useLocalStorage';
-import { nanoid } from "nanoid";
+import { useSelector } from 'react-redux';
 import { Filter } from './Filter/Filter';
 import { Message } from './Message/Message'
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList'
+import { getContactItems } from 'reducer/contactsSlice';
 import { Container, SectionsContainer, Section, Title, SectionTitle } from './App.styles'
+import { ToastContainer} from 'react-toastify';
 
 
 
 export const App = () => {
-
-const [contacts, setContacts] = useLocalStorage('contacts', []);
-const [filter, setFilter] = useState("");
-
-
-const addContact = ({ name, number }) => {
-  const contact = { id: nanoid(), name, number };
-  const normalizedName = name.toLowerCase();
-
-  if (
-   contacts.find(
-      contact => contact.name.toLowerCase() === normalizedName
-    )
-  ) {
-    return alert(`${name} is already in contacts!`);
-  }
-
-  setContacts(prevContacts =>[contact, ...prevContacts]);
-};
-
-
-const filterContacts = evt => {
-   setFilter(evt.currentTarget.value);
-};
-
-const getFilteredContacts = () => {
-  const normalizedFilter = filter.toLowerCase().trim();
-    return contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter)
-  );
-};
-
-const deleteContact = contactId => {
- setContacts(prevContacts=> prevContacts.filter(contact => contact.id !== contactId));
-};
+const contactsItems = useSelector(getContactItems);
 
   return (
     <Container>
@@ -52,27 +18,24 @@ const deleteContact = contactId => {
       <SectionsContainer>
         <Section>
           <SectionTitle>Add Contact</SectionTitle>
-          <ContactForm 
-      onSubmit={addContact}/>
+          <ContactForm />
       </Section>
         <Section >
           <SectionTitle>Contacts</SectionTitle>
-       {contacts.length !== 0 ? (
+       {contactsItems.length !== 0 ? (
        <>
-       <Filter value={filter} onChange={filterContacts} />
-       <ContactList
-        contacts={getFilteredContacts()}
-        onDeleteButton={deleteContact}
-      />
+       <Filter/>
+       <ContactList/>
        </> 
        ) : ( 
        <Message message="There are no contacts in your phonebook. Please add your first contact!" />)}  
         </Section>
       
       </SectionsContainer>
+      <ToastContainer/>
     </Container>
+
+
   )
-
-
 }
 
