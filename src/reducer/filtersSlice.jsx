@@ -7,6 +7,7 @@ const initialState = { value: ''};
     initialState,
     reducers: {
         setContact(state, actions) {
+            
             state.value = actions.payload;
         },
     },

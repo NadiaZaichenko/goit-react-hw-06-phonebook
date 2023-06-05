@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { addContact,getContactItems } from 'reducer/contactsSlice';
-import {toast} from 'react-toastify'
+import {toast} from 'react-toastify';
 import {useForm} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -11,7 +11,6 @@ import {
     StyledButton,
   } from './ContactForm.styled';
 import { useEffect } from 'react';
-import { createImmutableStateInvariantMiddleware } from '@reduxjs/toolkit';
 
 const nameRegex = /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
 
@@ -46,7 +45,7 @@ export const ContactForm = () => {
     } = useForm({
       defaultValues: {
         name: '',
-        number: ''
+        number: '',
       },
       resolver: yupResolver(schema),
       mode: 'onTouched',
@@ -59,11 +58,12 @@ export const ContactForm = () => {
 
    const addNewContact = data => {
     const normalizeName = data.name.toLowerCase();
-    if(contactsItems.find(item => createImmutableStateInvariantMiddleware.name.toLowerCase === normalizeName)) {
+    if(contactsItems.find(item => item.name.toLowerCase() === normalizeName)) {
       return toast.info(`${data.name} has alredy in your contacts`);
     };
     dispatch(addContact(data));
-   }
+    toast.info('New contact has been added to your phonebook')
+   };
 
     return (
        <StyledForm onSubmit={handleSubmit(addNewContact)}>

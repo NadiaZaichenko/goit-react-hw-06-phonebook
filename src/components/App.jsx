@@ -6,6 +6,7 @@ import { ContactList } from './ContactList/ContactList'
 import { getContactItems } from 'reducer/contactsSlice';
 import { Container, SectionsContainer, Section, Title, SectionTitle } from './App.styles'
 import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -30,7 +31,6 @@ const contactsItems = useSelector(getContactItems);
        ) : ( 
        <Message message="There are no contacts in your phonebook. Please add your first contact!" />)}  
         </Section>
-      
       </SectionsContainer>
       <ToastContainer/>
     </Container>
