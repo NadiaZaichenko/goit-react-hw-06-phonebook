@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { setContact, getFilterValue } from 'reducer/filtersSlice';
+import { setFilter, getFilterValue } from 'reducer/filtersSlice';
 import { StyledLabel, StyledInput } from './Filter.styled';
 
 export const Filter = () => {
@@ -11,7 +11,7 @@ return (
         <StyledInput 
         name="filter"
         type="text"
-        onChange={event => dispatch(setContact(event.currentTarget.value))}
+        onChange={event => dispatch(setFilter(event.currentTarget.value))}
         value ={filterValue}/>
     </StyledLabel>
 )

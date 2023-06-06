@@ -3,7 +3,7 @@ import {persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 const initialState = {
-    items : [],
+    contacts : [],
 };
 
 export const contactSlice = createSlice({
@@ -11,20 +11,21 @@ export const contactSlice = createSlice({
     initialState,
     reducers: {
         addContact: {
-           reducer(state, {payload}) {
-            state.items.push(payload);
+           reducer(state, action) {
+            state.contacts.push(action.payload);
            } ,
-           prepare(contact) {
+           prepare(data) {
             return { 
                 payload: {
-                    ...contact,
                     id: nanoid(),
+                    name: data.name,
+                    number: data.number,
                 },
              };
            },
         },
         deleteContact(state, action) {
-           state.items = state.items.filter(item => item.id !== action.payload.id);
+           state.contacts = state.contacts.filter(contact => contact.id !== action.payload.id);
         },
 }})
 
