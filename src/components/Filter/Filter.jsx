@@ -11,7 +11,7 @@ return (
         <StyledInput 
         name="filter"
         type="text"
-        onChange={event => dispatch(setFilter(event.currentTarget.value))}
+        onChange={e => dispatch(setFilter(e.currentTarget.value))}
         value ={filterValue}/>
     </StyledLabel>
 )

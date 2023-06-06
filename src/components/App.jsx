@@ -3,7 +3,7 @@ import { Filter } from './Filter/Filter';
 import { Message } from './Message/Message'
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList'
-import { getContactItems } from 'reducer/contactsSlice';
+import { getContactsItems } from 'reducer/contactsSlice';
 import { Container, SectionsContainer, Section, Title, SectionTitle } from './App.styles'
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export const App = () => {
-const contactsItems = useSelector(getContactItems);
+const contactsItems = useSelector(getContactsItems);
 
   return (
     <Container>
