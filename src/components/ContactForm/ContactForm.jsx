@@ -10,8 +10,6 @@ import {
     StyledInput,
     StyledButton,
   } from './ContactForm.styled';
-import { useEffect } from 'react';
-
 
 const nameRegex = /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
 
@@ -42,7 +40,6 @@ export const ContactForm = () => {
       handleSubmit,
       formState: {errors},
       reset,
-      formState,
     } = useForm({
       defaultValues: {
         name: '',
@@ -51,20 +48,21 @@ export const ContactForm = () => {
       resolver: yupResolver(schema),
       mode: 'onTouched',
     })
-   useEffect(() => {
-    if(formState.isSubmitSuccessful) {
-      reset();
-    }
-   }, [formState.isSubmitSuccessful, reset]);
+  
 
    const addNewContact = data => {
     const normalizeName = data.name.toLowerCase();
+    const normalizedNumber = data.number;
 
     if(contactsItems.find(item => item.name.toLowerCase() === normalizeName)) {
       return toast.info(`${data.name} has alredy in your contacts`);
     };
+    if(contactsItems.find(item => item.number === normalizedNumber)) {
+      return toast.info(`${data.number} has alredy in your contacts`);
+    };
     dispatch(addContact(data));
     toast.info('New contact has been added to your phonebook')
+    reset();
    };
 
     return (
